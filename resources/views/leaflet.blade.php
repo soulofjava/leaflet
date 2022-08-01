@@ -41,16 +41,13 @@
     <script>
         navigator.geolocation.getCurrentPosition(function (location) {
 
-            var map = L.map('map').setView([-7.356654558186953, 109.90575993482494], 17);
+            var map = L.map('map').setView([-7.356654558186953, 109.90575993482494], 16);
 
-            var latt = location.coords.latitude;
-            var longg = location.coords.longitude;
+            var loc = [parseFloat(location.coords.latitude), parseFloat(location.coords.longitude)];
 
-            console.log(latt + ', ' + longg);
+            console.log(loc);
 
-            var marker = L.marker([latt, longg], {
-                draggable: 'true'
-            }).addTo(map);
+            var marker = L.marker(loc, { draggable: 'true' }).addTo(map);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
@@ -68,6 +65,7 @@
             $("#Longitude").val(location.coords.longitude);
 
             marker.on('drag', function (e) {
+                console.log(e.latlng);
                 var position = marker.getLatLng();
                 marker.setLatLng(position, {
                     draggable: 'true'
@@ -80,6 +78,11 @@
                     fillColor: isInside ? 'green' : '#f03',
                     color: isInside ? 'green' : '#f03'
                 })
+                if (isInside) {
+                    console.log('Jangkauan');
+                } else {
+                    console.log('Diluar Jangkauan');
+                }
             });
         });
 
